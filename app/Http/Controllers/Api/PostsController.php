@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,11 @@ class PostsController extends Controller
      */
     public function index()
     {
-        
+        $posts = Post::all();
+        return response()->json([
+            'status' => true,
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -34,9 +39,15 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+        $post = Post::create($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Post Created Successfully',
+            'post' => $post
+    ], 200);
     }
 
     /**
@@ -47,7 +58,7 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        //
+
     }
 
     /**
@@ -68,9 +79,15 @@ class PostsController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(StorePostRequest $request, Post $post)
     {
-        //
+        $post->update($request->all());
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Post Updated Successfully',
+            'post' => $post
+    ], 200);
     }
 
     /**
@@ -81,6 +98,11 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Post Deleted Successfully'
+    ], 200);
     }
 }
